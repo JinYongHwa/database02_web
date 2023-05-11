@@ -18,6 +18,7 @@ router.post("/api/join", function (req, res) {
   }
   else {
 
+
   }
 
 
@@ -33,7 +34,7 @@ router.post("/api/join", function (req, res) {
 
   //   }
 
-})
+  // })
 })
 
 module.exports = router;
