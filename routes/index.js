@@ -34,5 +34,11 @@ router.post("/api/login", async function (req, res) {
   }
 })
 
+router.get("/main", async function (req, res) {
+  res.render("main")
+})
+router.get("/namecard/create", async function (req, res) {
+  res.render("namecard_create")
+})
 
 module.exports = router;
