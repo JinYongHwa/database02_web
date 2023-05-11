@@ -9,13 +9,17 @@ var usersRouter = require('./routes/users');
 
 var app = express();
 
-var mysql=require("mysql2");
-global.connection=mysql.createConnection({
-  host:"localhost",
-  user:"root",
-  password:"itc801",
-  database:"web02"
-})
+var mysql = require("mysql2/promise");
+async function getConnection() {
+  global.connection = await mysql.createConnection({
+    host: "localhost",
+    user: "root",
+    password: "itc801",
+    database: "web02"
+  })
+}
+getConnection()
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -31,12 +35,12 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   next(createError(404));
 });
 
 // error handler
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
