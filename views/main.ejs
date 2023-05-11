@@ -10,7 +10,20 @@
 <body>
     <div class="container">
         <a class="btn btn-primary" href="/namecard/create">명함생성</a>
+
+
+        <% namecards.forEach(namecard=>{%>
+            <div class="name-card">
+                <div class="name">
+                    <%=namecard.name%>
+                </div>
+            </div>
+
+
+            <% })%>
+
     </div>
+
 
 </body>
 

@@ -20,6 +20,27 @@ async function getConnection() {
 }
 getConnection()
 
+const session = require('express-session');
+const MySQLStore = require('express-mysql-session')(session);
+
+const options = {
+  host: 'localhost',
+  port: 3306,
+  user: 'root',
+  password: 'itc801',
+  database: 'web02'
+};
+
+const sessionStore = new MySQLStore(options);
+
+app.use(session({
+  key: 'loginkey',
+  secret: 'itc801#',
+  store: sessionStore,
+  resave: false,
+  saveUninitialized: false
+}));
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

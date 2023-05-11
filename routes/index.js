@@ -30,15 +30,29 @@ router.post("/api/login", async function (req, res) {
     res.render("index", { message: "아이디 또는 패스워드가 틀렸습니다." })
   }
   else { //로그인 성공
+    req.session.user = rows[0]
     res.redirect("/main")
   }
 })
 
 router.get("/main", async function (req, res) {
-  res.render("main")
+  var [rows] = await connection.query("select * from namecard where userId=?", [req.session.user.id])
+
+  res.render("main", { namecards: rows })
 })
 router.get("/namecard/create", async function (req, res) {
   res.render("namecard_create")
+})
+
+router.post("/api/namecard/create", async function (req, res) {
+  console.log(req.body)
+  console.log(req.session)
+  await connection.query(`insert into namecard(name,company,title,phone,email,address,web,userId)
+    values(?,?,?,?,?,?,?,?)`,
+    [req.body.name, req.body.company, req.body.title,
+    req.body.phone, req.body.email, req.body.address, req.body.web, req.session.user.id])
+
+  res.redirect("/main")
 })
 
 module.exports = router;
