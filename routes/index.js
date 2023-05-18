@@ -54,5 +54,27 @@ router.post("/api/namecard/create", async function (req, res) {
 
   res.redirect("/main")
 })
+router.get("/api/namecard/delete/:id", async function (req, res) {
+  console.log(req.params.id)
+  await connection.query("delete from namecard where id=?", [req.params.id])
+  res.redirect("/main")
+})
+router.get("/namecard/modify/:id", async function (req, res) {
+  var [rows] = await connection.query("select * from namecard where id=?", [req.params.id])
+
+  res.render("namecard_modify", { namecard: rows[0] })
+})
+
+router.post("/api/namecard/modify", async function (req, res) {
+  console.log(req.body)
+  await connection.query(`update namecard set name=?,company=?,title=?,phone=?,email=?,address=?,web=?
+                        where id=?`,
+    [req.body.name, req.body.company, req.body.title,
+    req.body.phone, req.body.email, req.body.address, req.body.web, req.body.id])
+
+  res.redirect("/main")
+
+})
+
 
 module.exports = router;
